@@ -20,9 +20,9 @@ interface FleetInterface
     public function addVehicle(VehicleInterface $vehicle): void;
 
     /**
-     * @return string
+     * @return int
      */
-    public function getFleetId(): string;
+    public function getFleetId(): int;
 
     /**
      * @param string $plateNumber

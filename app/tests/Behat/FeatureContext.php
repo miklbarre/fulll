@@ -5,16 +5,16 @@ namespace App\Tests\Behat;
 use App\Entity\Fleet;
 use App\Entity\Location;
 use App\Entity\Vehicle;
-use App\Repository\FleetRepository;
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 
 class FeatureContext implements Context
 {
-    private FleetRepository $repository;
     private Fleet $myFleet;
     private ?Fleet $otherFleet = null;
     private Vehicle $vehicle;
@@ -24,21 +24,18 @@ class FeatureContext implements Context
 
     public function __construct()
     {
-        $this->repository = new FleetRepository();
     }
 
     #[Given('my fleet')]
     public function myFleet(): void
     {
-        $this->myFleet = new Fleet('my-fleet');
-        $this->repository->save($this->myFleet);
+        $this->myFleet = new Fleet(1);
     }
 
     #[Given("the fleet of another user")]
     public function theFleetOfAnotherUser(): void
     {
-        $this->otherFleet = new Fleet('other-fleet');
-        $this->repository->save($this->otherFleet);
+        $this->otherFleet = new Fleet(2);
     }
 
     #[Given('a vehicle')]
@@ -54,14 +51,15 @@ class FeatureContext implements Context
     public function registerVehicle(): void
     {
         $this->myFleet->addVehicle($this->vehicle);
-        $this->repository->save($this->myFleet);
     }
 
+    /**
+     * @return void
+     */
     #[Then('this vehicle should be part of my vehicle fleet')]
     public function vehicleShouldBeInFleet(): void
     {
-        $fleet = $this->repository->find('my-fleet');
-        assert($fleet->hasVehicle($this->vehicle));
+        assert($this->myFleet->hasVehicle($this->vehicle));
     }
 
     /**
@@ -97,7 +95,6 @@ class FeatureContext implements Context
     public function registeredInOtherFleet(): void
     {
         $this->otherFleet->addVehicle($this->vehicle);
-        $this->repository->save($this->otherFleet);
     }
 
 

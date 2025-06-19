@@ -14,8 +14,8 @@ interface FleetRepositoryInterface
     public function save(FleetInterface $fleet): void;
 
     /**
-     * @param string $fleetId
+     * @param int $fleetId
      * @return FleetInterface|null
      */
-    public function find(string $fleetId): ?FleetInterface;
+    public function findFleet(int $fleetId): ?FleetInterface;
 }
