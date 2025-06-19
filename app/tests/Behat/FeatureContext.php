@@ -3,6 +3,7 @@
 namespace App\Tests\Behat;
 
 use App\Entity\Fleet;
+use App\Entity\Location;
 use App\Entity\Vehicle;
 use App\Repository\FleetRepository;
 use Behat\Behat\Context\Context;
@@ -18,6 +19,8 @@ class FeatureContext implements Context
     private ?Fleet $otherFleet = null;
     private Vehicle $vehicle;
     private ?Exception $caughtException = null;
+
+    private Location $location;
 
     public function __construct()
     {
@@ -96,4 +99,58 @@ class FeatureContext implements Context
         $this->otherFleet->addVehicle($this->vehicle);
         $this->repository->save($this->otherFleet);
     }
+
+
+    // PARKING VEHICULE
+
+    #[Given('a location')]
+    public function aLocation(): void
+    {
+        $this->location = new Location(48.8566, 2.3522);
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Given('my vehicle has been parked into this location')]
+    public function myVehicleHasBeenParkedIntoThisLocation(): void
+    {
+        $this->vehicle->parkAt($this->location);
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[When('I park my vehicle at this location')]
+    public function iParkMyVehicleAtThisLocation(): void
+    {
+        $this->vehicle->parkAt($this->location);
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[When('I try to park my vehicle at this location')]
+    public function iTryToParkMyVehicleAtThisLocation(): void
+    {
+        try {
+            $this->vehicle->parkAt($this->location);
+        } catch (Exception $e) {
+            $this->caughtException = $e;
+        }
+    }
+
+    #[Then('the known location of my vehicle should verify this location')]
+    public function theKnownLocationShouldVerify(): void
+    {
+        assert($this->vehicle->getLocation()?->equals($this->location) === true);
+    }
+
+    #[Then('I should be informed that my vehicle is already parked at this location')]
+    public function iShouldBeInformedOfDuplicateLocation(): void
+    {
+        assert($this->caughtException instanceof Exception);
+        assert(str_contains($this->caughtException->getMessage(), 'already parked'));
+    }
+
 }

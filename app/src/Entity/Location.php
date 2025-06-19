@@ -12,11 +12,20 @@ final class Location implements LocationInterface
     /**
      * @param float $lat
      * @param float $lng
-     * @param float|null $alt
      */
     public function __construct(
-        public readonly float $lat,
-        public readonly float $lng,
-        public readonly ?float $alt = null
-    ) {}
+        public float $lat,
+        public float $lng
+    )
+    {
+    }
+
+    /**
+     * @param LocationInterface $location
+     * @return bool
+     */
+    public function equals(LocationInterface $location): bool
+    {
+        return $this->lat === $location->lat && $this->lng === $location->lng;
+    }
 }

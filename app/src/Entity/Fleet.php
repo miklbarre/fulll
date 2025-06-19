@@ -41,7 +41,7 @@ class Fleet implements FleetInterface
             throw new Exception("Vehicle already added in the fleet");
         }
 
-        $this->vehicles->add($vehicle);
+        $this->vehicles->set($vehicle->getPlateNumber(), $vehicle);
     }
 
     /**
@@ -51,5 +51,15 @@ class Fleet implements FleetInterface
     public function hasVehicle(VehicleInterface $vehicle): bool
     {
         return $this->vehicles->contains($vehicle);
+    }
+
+
+    /**
+     * @param string $plateNumber
+     * @return VehicleInterface|null
+     */
+    public function getVehicle(string $plateNumber): ?VehicleInterface
+    {
+        return $this->vehicles->get($plateNumber) ?? null;
     }
 }
