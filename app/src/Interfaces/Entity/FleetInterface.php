@@ -23,4 +23,10 @@ interface FleetInterface
      * @return string
      */
     public function getFleetId(): string;
+
+    /**
+     * @param string $plateNumber
+     * @return VehicleInterface|null
+     */
+    public function getVehicle(string $plateNumber): ?VehicleInterface;
 }
