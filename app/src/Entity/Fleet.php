@@ -5,8 +5,11 @@ namespace App\Entity;
 use App\Interfaces\Entity\FleetInterface;
 use App\Interfaces\Entity\VehicleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
+#[ORM\Entity]
+#[ORM\Table(name: 'fleet')]
 class Fleet implements FleetInterface
 {
     /**
@@ -14,18 +17,28 @@ class Fleet implements FleetInterface
      */
     private ArrayCollection $vehicles;
 
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private int $fleetId;
+
+    #[ORM\Column(name: 'user_id', type: 'integer')]
+    private int $userId;
+
     /**
-     * @param string $fleetId
+     * @param int $userId
      */
-    public function __construct(private string $fleetId)
+    public function __construct(int $userId)
     {
+        $this->userId = $userId;
+        $this->fleetId = 1;
         $this->vehicles = new ArrayCollection();
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getFleetId(): string
+    public function getFleetId(): int
     {
         return $this->fleetId;
     }

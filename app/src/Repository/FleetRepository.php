@@ -2,21 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Fleet;
 use App\Interfaces\Entity\FleetInterface;
 use App\Interfaces\Repository\FleetRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
-class FleetRepository implements FleetRepositoryInterface
+final class FleetRepository extends EntityRepository implements FleetRepositoryInterface
 {
-    /**
-     * @var ArrayCollection<FleetInterface>
-     */
-    private ArrayCollection $fleets;
-
-    public function __construct()
-    {
-        $this->fleets = new ArrayCollection();
-    }
+    protected static string $className = Fleet::class;
 
     /**
      * @param FleetInterface $fleet
@@ -24,15 +16,15 @@ class FleetRepository implements FleetRepositoryInterface
      */
     public function save(FleetInterface $fleet): void
     {
-        $this->fleets->set($fleet->getFleetId(), $fleet);
+        $this->persistAndFlush($fleet);
     }
 
     /**
-     * @param string $fleetId
-     * @return FleetInterface|null
+     * @param int $fleetId
+     * @return Fleet|null
      */
-    public function find(string $fleetId): ?FleetInterface
+    public function findFleet(int $fleetId): ?Fleet
     {
-        return $this->fleets->get($fleetId);
+        return $this->find($fleetId);
     }
 }
