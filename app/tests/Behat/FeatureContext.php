@@ -2,9 +2,9 @@
 
 namespace App\Tests\Behat;
 
-use App\Entity\Fleet;
-use App\Entity\Location;
-use App\Entity\Vehicle;
+use App\Domain\Entity\Fleet;
+use App\Domain\Entity\Location;
+use App\Domain\Entity\Vehicle;
 use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
