@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Command;
+namespace App\Command\FleetCommand;;
 
+use App\Command\RegisterFleetCommand;
 use App\Handler\RegisterFleetHandler;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Interfaces\Entity\FleetInterface;
 use App\Interfaces\Entity\VehicleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
@@ -12,15 +13,13 @@ use Exception;
 #[ORM\Table(name: 'fleet')]
 class Fleet implements FleetInterface
 {
-    /**
-     * @var ArrayCollection<VehicleInterface>
-     */
-    private ArrayCollection $vehicles;
+    #[ORM\OneToMany(targetEntity: Vehicle::class, mappedBy: 'fleet', cascade: ['persist'], orphanRemoval: true)]
+    protected Collection $vehicles;
 
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private int $fleetId;
+    private int $id;
 
     #[ORM\Column(name: 'user_id', type: 'integer')]
     private int $userId;
@@ -31,7 +30,6 @@ class Fleet implements FleetInterface
     public function __construct(int $userId)
     {
         $this->userId = $userId;
-        $this->fleetId = 1;
         $this->vehicles = new ArrayCollection();
     }
 
@@ -40,7 +38,7 @@ class Fleet implements FleetInterface
      */
     public function getFleetId(): int
     {
-        return $this->fleetId;
+        return $this->id;
     }
 
     /**
@@ -50,7 +48,7 @@ class Fleet implements FleetInterface
      */
     public function addVehicle(VehicleInterface $vehicle): void
     {
-        if ($this->vehicles->contains($vehicle)) {
+        if ($vehicle->isAlreadyOnFleet()) {
             throw new Exception("Vehicle already added in the fleet");
         }
 
@@ -74,5 +72,13 @@ class Fleet implements FleetInterface
     public function getVehicle(string $plateNumber): ?VehicleInterface
     {
         return $this->vehicles->get($plateNumber) ?? null;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getVehicles(): Collection
+    {
+        return $this->vehicles;
     }
 }
