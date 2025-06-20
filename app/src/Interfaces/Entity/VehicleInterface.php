@@ -22,4 +22,9 @@ interface VehicleInterface
      * @return void
      */
     public function parkAt(LocationInterface $location): void;
+
+    /**
+     * @return bool
+     */
+    public function isAlreadyOnFleet(): bool;
 }

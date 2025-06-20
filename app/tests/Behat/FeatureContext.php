@@ -41,7 +41,7 @@ class FeatureContext implements Context
     #[Given('a vehicle')]
     public function aVehicle(): void
     {
-        $this->vehicle = new Vehicle('ABC-123');
+        $this->vehicle = new Vehicle('ABC-123', $this->myFleet);
     }
 
     /**
