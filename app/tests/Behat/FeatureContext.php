@@ -9,8 +9,6 @@ use Behat\Behat\Context\Context;
 use Behat\Step\Given;
 use Behat\Step\Then;
 use Behat\Step\When;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 
 class FeatureContext implements Context

@@ -64,16 +64,6 @@ class Fleet implements FleetInterface
         return $this->vehicles->contains($vehicle);
     }
 
-
-    /**
-     * @param string $plateNumber
-     * @return VehicleInterface|null
-     */
-    public function getVehicle(string $plateNumber): ?VehicleInterface
-    {
-        return $this->vehicles->get($plateNumber) ?? null;
-    }
-
     /**
      * @return Collection
      */
