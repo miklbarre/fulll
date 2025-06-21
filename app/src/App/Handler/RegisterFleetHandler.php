@@ -8,7 +8,7 @@ use App\Domain\Interfaces\Entity\FleetInterface;
 use App\Domain\Interfaces\Handler\RegisterFleetHandlerInterface;
 use App\Domain\Interfaces\Repository\FleetRepositoryInterface;
 
-final class RegisterFleetHandler implements RegisterFleetHandlerInterface
+class RegisterFleetHandler implements RegisterFleetHandlerInterface
 {
     /**
      * @param FleetRepositoryInterface $repository

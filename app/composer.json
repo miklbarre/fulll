@@ -46,9 +46,9 @@
     },
     "require-dev": {
         "behat/behat": "v3.22.0",
-        "friends-of-behat/symfony-extension": "^2.0",
         "behat/gherkin": "v4.14.0",
-        "phpunit/phpunit": "^9.5",
+        "friends-of-behat/symfony-extension": "^2.0",
+        "phpunit/phpunit": "*",
         "symfony/browser-kit": "^6.4",
         "symfony/css-selector": "^6.4",
         "symfony/debug-bundle": "^6.4",
